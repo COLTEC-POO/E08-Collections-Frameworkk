@@ -1,7 +1,6 @@
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public abstract class Conta implements ITaxas{
 
@@ -11,9 +10,9 @@ public abstract class Conta implements ITaxas{
 
     private double saldo;
 
-    private double limite;
+    protected double limite;
 
-    protected ArrayList<Operacao> Operacoes = new ArrayList<Operacao>();
+    private ArrayList<Operacao> operacoes;
 
     private int proximaOperacao;
 
@@ -25,18 +24,17 @@ public abstract class Conta implements ITaxas{
         this.saldo = saldo;
         this.limite = limite;
 
-        Operacoes.add(new OperacaoDeposito(saldo));
+        this.operacoes = new ArrayList<>(1000);
         this.proximaOperacao = 0;
 
         Conta.totalContas++;
     }
 
-
-
     public boolean sacar(double valor) {
         if (valor >= 0 && valor <= this.limite) {
             this.saldo -= valor;
-            Operacoes.add (new OperacaoSaque(valor));
+
+            this.operacoes.add(proximaOperacao, new OperacaoSaque(valor));
             this.proximaOperacao++;
             return true;
         }
@@ -46,7 +44,8 @@ public abstract class Conta implements ITaxas{
 
     public void depositar(double valor) {
         this.saldo += valor;
-        Operacoes.add(new OperacaoDeposito(valor));
+
+        this.operacoes.add(proximaOperacao, new OperacaoDeposito(valor));
         this.proximaOperacao++;
     }
 
@@ -79,17 +78,35 @@ public abstract class Conta implements ITaxas{
         return false;
     }
 
-    public void imprimirExtrato() {
+    public void imprimirExtrato(int typExc) {
+
+        if(typExc == 1){
+            Collections.sort(operacoes); //Ordena
+        }
+
         System.out.println("======= Extrato Conta " + this.numero + "======");
 
-        Collections.sort(Operacoes);
-
-        for(Operacao atual : this.Operacoes) {
+            for(Operacao atual : this.operacoes) {
             if (atual != null) {
                 System.out.println(atual);
             }
         }
         System.out.println("====================");
+    }
+
+    public void imprimirExtratoTaxas() {
+        System.out.println("=== Extrato de Taxas ===");
+        System.out.printf("Manutenção:\t%.2f\n", this.calculaTaxas());
+
+        double totalTaxas = this.calculaTaxas();
+        for (int i = 0; i < this.proximaOperacao; i++) {
+            Operacao atual = this.operacoes.get(i);
+
+            totalTaxas += atual.calculaTaxas();
+            System.out.printf("%c:\t%.2f\n", atual.getTipo(), atual.calculaTaxas());
+        }
+
+        System.out.printf("Total:\t%.2f\n", totalTaxas);
     }
 
     public int getNumero() {
@@ -120,41 +137,5 @@ public abstract class Conta implements ITaxas{
         this.dono = dono;
     }
 
-    public void setLimite(double limite) {
-        if (limite < 0)
-            limite = 0;
-
-        this.limite = limite;
-    }
-
-    public ArrayList<Operacao> getOperacoes() {
-
-        return Operacoes;
-
-    }
-
-    double Cont = 0;
-
-    public void imprimirExtratoTaxas(){
-
-
-
-        System.out.println("== Extrato De Taxas ==");
-        System.out.println("Manutencao da conta: " + calculaTaxas());
-        System.out.println("\nOperacoes: ");
-
-        Cont += calculaTaxas();
-        for (Operacao opc: Operacoes){
-
-            if (Operacoes != null && opc.getTipo() == 's') {
-
-                System.out.println("Saque: " + opc.calculaTaxas());
-                Cont += opc.calculaTaxas();
-
-            }
-        }
-
-        System.out.println("\nTotal obtido: " + Cont);
-    }
-
+    public abstract void setLimite(double limite);
 }

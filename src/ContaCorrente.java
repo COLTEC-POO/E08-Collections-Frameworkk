@@ -1,35 +1,19 @@
-public class ContaCorrente extends Conta{
+public class ContaCorrente extends Conta {
 
-    public ContaCorrente(int Num, Cliente Dono, double saldo, double limite){
-
-        super(Num, Dono, saldo, limite);
-        setLimite(limite, saldo);
-
+    public ContaCorrente(int numero, Cliente dono, double saldo, double limite) {
+        super(numero, dono, saldo, limite);
     }
 
 
-
-    void setLimite(double limite, double saldo) {
-
-        if (saldo < -100){
-
-            saldo = -100;
-
-            saldo = super.getSaldo();
-            limite = super.getLimite();
-
-        }
-
-    }
-
+    @Override
     public double calculaTaxas() {
+        return this.getDono().calculaTaxas();
+    }
 
-        if (getDono().getClass() == PessoaFisica.class){
-            return 10;
-        }else{
-            return 20;
-        }
-
+    @Override
+    public void setLimite(double limite) {
+        if (limite >= -100)
+            super.limite = limite;
     }
 
 }

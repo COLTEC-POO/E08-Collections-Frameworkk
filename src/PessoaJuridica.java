@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Objects;
 
 public class PessoaJuridica extends Cliente {
 
@@ -16,12 +17,14 @@ public class PessoaJuridica extends Cliente {
     }
 
 
+    @Override
     public String toString() {
         return  "cnpj=" + cnpj + '\n' +
                 "numFuncionarios=" + numFuncionarios + '\n'  +
                 "setor=" + setor;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o instanceof PessoaJuridica) {
@@ -31,6 +34,15 @@ public class PessoaJuridica extends Cliente {
         return false;
     }
 
+    @Override
+    public boolean autenticar(String chave) {
+        return this.cnpj.equals(chave);
+    }
+
+    @Override
+    public double calculaTaxas() {
+        return 20.0;
+    }
 
     public String getCnpj() {
         return cnpj;
@@ -56,3 +68,4 @@ public class PessoaJuridica extends Cliente {
         this.setor = setor;
     }
 }
+

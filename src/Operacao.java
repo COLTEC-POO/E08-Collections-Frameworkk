@@ -1,30 +1,16 @@
 import java.util.Date;
 
-public abstract class Operacao implements ITaxas, Comparable<Operacao>{
 
-    /* Data de realização da operação */
+public abstract class Operacao implements ITaxas, Comparable < Operacao >{
+
     private Date data;
 
-    /* Tipo da operação */
     private char tipo;
 
-    /* Valor da operação */
     private double valor;
 
     private static int totalOperacoes = 0;
 
-    /**
-     * Construtor. Inicializa uma nova instância da classe Operacao onde a data da operação é exatamente a data
-     * da criação da classe.
-     *
-     * Exemplos de uso:
-     *
-     * > Operacao op1 = new Operacao('d', 2500); // Operação de depósito de 2500 reais
-     * > Operacao op2 = new Operacao('s', 1000); // Operação de saque de 1000 reais
-     *
-     * @param tipo Tipo da operação, podendo ser 'd' ou 's'
-     * @param valor Valor da operação
-     */
     public Operacao(char tipo, double valor) {
         this.tipo = tipo;
         this.valor = valor;
@@ -33,62 +19,32 @@ public abstract class Operacao implements ITaxas, Comparable<Operacao>{
         Operacao.totalOperacoes++;
     }
 
-    @Override
-    public String toString() {
+        public String toString() {
         return String.format("%s\t%s\t%s", this.data, this.tipo, this.valor);
     }
 
-
-    public Date getData() {
+         public Date getData() {
         return data;
     }
 
-    public char getTipo() {
+        public char getTipo() {
         return tipo;
     }
 
-    public double getValor() {
+        public double getValor() {
         return valor;
     }
 
-    public static int getTotalOperacoes() {
+        public static int getTotalOperacoes() {
         return Operacao.totalOperacoes;
     }
 
-    public void setTipo(char tipo) {
+        public void setTipo(char tipo) {
         if(tipo == 'd' || tipo == 's')
             this.tipo = tipo;
     }
 
-    public void setValor(double valor) {
+        public void setValor(double valor) {
         this.valor = valor;
     }
-
-
-    public int compareTo(Operacao operacao) {
-
-        if (operacao.tipo == 'd') {
-
-             if (this.tipo == operacao.tipo) {
-
-                    return this.data.compareTo(operacao.data);
-
-            } else {
-                return 1;
-            }
-
-        } else if (operacao.tipo == 's') {
-
-                if (this.tipo == operacao.tipo) {
-                    return this.data.compareTo(operacao.data);
-            } else {
-                return -1;
-            }
-        } else {
-                return 0;
-        }
-
-    }
-
-
 }

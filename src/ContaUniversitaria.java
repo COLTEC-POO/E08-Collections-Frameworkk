@@ -1,28 +1,16 @@
-public class ContaUniversitaria extends Conta{
-
-    public ContaUniversitaria (int Num, Cliente Dono, double Saldo, double limite, double saldo){
-
-        super (Num, Dono, Saldo, limite);
-        setLimite(limite, saldo);
-
+public class ContaUniversitaria extends Conta {
+    public ContaUniversitaria(int numero, Cliente dono, double saldo, double limite) {
+        super(numero, dono, saldo, limite);
     }
 
-    void setLimite(double limite, double saldo) {
-
-        if ((saldo > 500) && (limite < 0)){
-
-            saldo = 0;
-            limite = 500;
-
-            saldo = super.getSaldo();
-            limite = super.getLimite() ;
-
-        }
-    }
-
+    @Override
     public double calculaTaxas() {
+        return 0f;
+    }
 
-        return 0;
-
+    @Override
+    public void setLimite(double limite) {
+        if (limite <= 500 && limite >= 0)
+            super.limite = limite;
     }
 }

@@ -1,5 +1,5 @@
 public interface ITaxas {
 
-    double calculaTaxas();
+    public double calculaTaxas();
 
 }

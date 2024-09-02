@@ -16,12 +16,14 @@ public class PessoaFisica extends Cliente {
         this.genero = genero;
     }
 
+    @Override
     public String toString() {
         return "cpf=" + cpf + '\n' +
                 "idade=" + idade + '\n' +
                 "genero=" + genero;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if(o instanceof PessoaFisica) {
@@ -29,5 +31,15 @@ public class PessoaFisica extends Cliente {
             return Objects.equals(cpf, pessoa.cpf);
         }
         return false;
+    }
+
+    @Override
+    public boolean autenticar(String chave) {
+        return this.cpf.equals(chave);
+    }
+
+    @Override
+    public double calculaTaxas() {
+        return 10.0;
     }
 }

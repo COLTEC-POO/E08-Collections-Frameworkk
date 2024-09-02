@@ -4,9 +4,13 @@ public class OperacaoSaque extends Operacao {
         super('s', valor);
     }
 
+    @Override
     public double calculaTaxas() {
+        return 0.05;
+    }
 
-        return 0.05; //Centavos
-
+    @Override
+    public int compareTo(Operacao o) {
+        return this.getData().compareTo(o.getData());
     }
 }

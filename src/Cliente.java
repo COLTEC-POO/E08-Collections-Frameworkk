@@ -1,6 +1,6 @@
 import java.util.Date;
 
-abstract class Cliente {
+public abstract class Cliente implements ITaxas {
 
     private String nome;
 
@@ -14,9 +14,12 @@ abstract class Cliente {
         this.data = data;
     }
 
+    public abstract boolean autenticar(String chave);
+
     public void imprimir() {
         System.out.println("CLIENTE INVÁLIDO!");
     }
+
 
     @Override
     public String toString() {
